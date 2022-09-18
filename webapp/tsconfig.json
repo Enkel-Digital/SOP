@@ -1,0 +1,20 @@
+{
+  // Using reference to specify a seperate tsconfig for the vite config file
+  // https://www.typescriptlang.org/docs/handbook/project-references.html
+  "references": [{ "path": "./tsconfig.vite-config.json" }],
+
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+
+  // Need to specify the .vue as it is not a default file type
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+
+  "compilerOptions": {
+    /*
+      These options below are inherited from the base VueJS tsconfig.json
+      Commented out here for users to know what are some of the values set.
+    */
+    // "strict": true,
+    // "noImplicitThis": true,
+    // "resolveJsonModule": true, // Allow direct import of .json files and enable type checking
+  }
+}
