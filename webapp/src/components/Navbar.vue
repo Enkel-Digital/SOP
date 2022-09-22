@@ -2,8 +2,11 @@
 import { ref } from "vue";
 const showMobileMenu = ref<boolean>(false);
 
-// @todo Add menu items as needed
 const menuItems = [
+  {
+    name: "Settings",
+    link: { name: "settings" },
+  },
   {
     name: "About",
     link: { name: "about" },
@@ -60,7 +63,7 @@ const menuItems = [
 
         <a
           class="navbar-item"
-          href="https://github.com/Enkel-Digital/vue3-bulma-template"
+          href="https://github.com/Enkel-Digital/SOP"
           target="_blank"
         >
           <span @click="showMobileMenu = false">Github</span>
