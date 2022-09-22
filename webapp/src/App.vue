@@ -1,9 +1,50 @@
 <script setup lang="ts">
 import Navbar from "./components/Navbar.vue";
+
+import { useNotif } from "./store/notif";
+const notif = useNotif();
 </script>
 
 <template>
   <Navbar />
+
+  <!-- @todo Fix banner placement -->
+
+  <!--
+    Notification banner
+
+    Use a fixed position and apply overlay style so that the notification will
+    not take up space on the normal plane and push everything else down.
+  -->
+  <div
+    v-if="notif.notif"
+    style="
+      max-width: 50em;
+
+      position: fixed;
+      top: 1rem;
+      z-index: 100;
+      width: 100%;
+    "
+  >
+    <!-- Only apply the box shadow to the notification bar itself -->
+    <div
+      class="notification is-light"
+      :class="{ [`is-${notif.notifColor}`]: true }"
+      style="box-shadow: 0 0.3rem 1rem rgb(0 0 0 / 0.4)"
+    >
+      <button class="delete" @click="notif.clearNotif"></button>
+
+      <!--
+        Allow HTML content to be shown, this is treated as safe since notification
+        content strings are hardcoded within the app itself.
+
+        Word wrap CSS added to deal with unusually long slugs on small screens.
+      -->
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <span style="word-wrap: break-word" v-html="notif.notifContent" />
+    </div>
+  </div>
 
   <!-- Center router view element horizontally -->
   <div class="container">
