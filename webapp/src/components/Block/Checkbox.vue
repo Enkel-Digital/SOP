@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { useStore } from "../../store/index";
+import type { CheckboxBlock } from "../../types/Blocks";
 
-import type { Checkbox_UUID } from "../../types/Blocks";
-
-const props = defineProps<{ id: Checkbox_UUID }>();
-
-// Load the block into store and get it back asynchronously
-const block = await useStore().getCheckboxBlock(props.id);
+defineProps<{ block: CheckboxBlock }>();
 </script>
 
 <template>

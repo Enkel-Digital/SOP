@@ -28,6 +28,6 @@ const block = await useStore().getBlock(blockID);
   </template>
 
   <template v-else-if="block.type === 'checkbox'">
-    <CheckboxBlock :id="blockID" />
+    <CheckboxBlock :block="block" />
   </template>
 </template>
