@@ -23,7 +23,7 @@ const block = await useStore().getBlock(blockID);
 <template>
   <template v-if="block.type === 'SOP'">
     <div class="section mx-3 py-0">
-      <SOPBlock :sop="block" />
+      <SOPBlock :block="block" />
     </div>
   </template>
 

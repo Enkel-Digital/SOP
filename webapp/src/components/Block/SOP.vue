@@ -3,7 +3,7 @@ import CheckBox from "./CheckBox.vue";
 
 import type { SopBlock } from "../../types/Blocks";
 
-const props = defineProps<{ sop: SopBlock }>();
+const props = defineProps<{ block: SopBlock }>();
 
 /**
  * @todo
@@ -17,7 +17,7 @@ function reset() {
 <template>
   <div class="columns is-vcentered is-mobile">
     <div class="column">
-      <p class="title">{{ sop.properties.title }}</p>
+      <p class="title">{{ block.properties.title }}</p>
     </div>
 
     <!-- @todo Only show the button to add if user created it or has enough permissions  -->
@@ -36,7 +36,7 @@ function reset() {
   <!-- Make this vibrate on click for mobile devices -->
   <!-- Load different types of Block components based on Block type to render the child blocks -->
   <!-- How do I lazily import the component? If i import all of them at the top... then this will be huge to load -->
-  <div v-for="(childID, i) in sop.children" :key="childID">
+  <div v-for="(childID, i) in block.children" :key="childID">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-size-4 is-narrow">{{ i + 1 }}.</div>
 
