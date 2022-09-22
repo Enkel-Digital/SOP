@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CheckBox from "./CheckBox.vue";
+import Block from "./Block.vue";
 
 import type { SopBlock } from "../../types/Blocks";
 
@@ -31,18 +31,12 @@ function reset() {
     </div>
   </div>
 
-  <!-- Remove the type cast and actually test for this Block type -->
-  <!-- How to async load this content? And pass it to a child component? -->
-  <!-- Make this vibrate on click for mobile devices -->
-  <!-- Load different types of Block components based on Block type to render the child blocks -->
-  <!-- How do I lazily import the component? If i import all of them at the top... then this will be huge to load -->
   <div v-for="(childID, i) in block.children" :key="childID">
     <div class="columns is-vcentered is-mobile">
       <div class="column is-size-4 is-narrow">{{ i + 1 }}.</div>
 
       <div class="column">
-        <!-- <CheckBox :block="child" :index="i" /> -->
-        <CheckBox :id="childID" :index="i" />
+        <Block :blockID="childID" />
       </div>
     </div>
   </div>
