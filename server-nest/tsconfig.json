@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+
+    // Skip declaration and sourceMap generations as these are not needed in a standalone TS project like this
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": true,
+
+    // Enable build caching to have faster builds, and keep buildinfo file out of dist/
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
+
+    // Allow direct import of .json files
+    // Used to import the serviceAccountKey json file directly
+    "resolveJsonModule": true,
+
+    "target": "es2017",
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Typechecking rules */
+    "strict": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}

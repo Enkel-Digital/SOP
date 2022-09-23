@@ -1,0 +1,11 @@
+# Global file variable definitions
+@hostname = http://localhost
+@host = {{hostname}}:3000
+
+
+### Base URL and health probe
+GET {{host}}/
+
+
+### Version endpoint
+GET {{host}}/version
