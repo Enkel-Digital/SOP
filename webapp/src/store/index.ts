@@ -50,7 +50,17 @@ export const useStore = defineStore("main", {
       // Check if block is already loaded locally
       const localBlock = this.blocks[blockID];
 
-      if (localBlock) return localBlock;
+      // If block is available locally, run a background process to
+      // load its children and return the block directly.
+      if (localBlock) {
+        // This is a fire and forget and only needed here and not needed
+        // when getting back from API, because all info needed to show
+        // current block level should already be retrieved.
+        this.getChildBlocks(localBlock.children);
+
+        // Break out of method and return block after starting background process
+        return localBlock;
+      }
 
       // Load from blocks from API, this will return both the requested slot,
       // and all of the other blocks that is its direct children / descendant
@@ -97,6 +107,16 @@ export const useStore = defineStore("main", {
       // Alternative that reads better but goes through the safe
       // method (an extra layer of indirection).
       // return this.getBlockSafe<SopBlock>(blockID, isSopBlock);
+    },
+
+
+    /**
+     * Function to load child blocks into cache
+     */
+    async getChildBlocks(childIDs: Array<UUID> | undefined) {
+      if (childIDs)
+        // Fire and forget so it can run in the background.
+        for (const childID of childIDs) this.getBlock(childID);
     },
 
     /**
