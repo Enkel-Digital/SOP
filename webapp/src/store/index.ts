@@ -98,6 +98,55 @@ export const useStore = defineStore("main", {
       // method (an extra layer of indirection).
       // return this.getBlockSafe<SopBlock>(blockID, isSopBlock);
     },
+
+    /**
+     * Reset all the checked items (uncheck them) recursively for all child blocks too
+     */
+    async resetSOP(sopID: SOP_UUID) {
+      // Get the SOP block first from the store
+      const block = await this.getSopBlock(sopID);
+
+      // Load the child blocks one by one and uncheck them if possible
+      // However this is a fire and forget action where it can run in
+      // the background asynchronously.
+      for (const childID of block.children)
+        this.getBlock(childID).then((block) => {
+          // @todo Use a switch case instead with strong type checking to ensure all cases checked
+          //
+          // Uncheck if checkbox block
+          if (block.type === "checkbox") block.properties.checked === false;
+          // Recursively call `resetSOP` if it is a nested SOP
+          else if (block.type === "SOP") this.resetSOP(childID);
+          // Error if a new block is introduced but isn't handled here
+          else console.log("Internal Error: Invalid Block type");
+        });
+
+      /*
+
+      // Not so memory efficient where a new array is created with map
+      const block = await this.getSopBlock(sopID);
+      Promise.all(
+        block.children.map((childID) =>
+          this.getBlock(childID).then((block) => {
+            if (block.type === "checkbox") block.properties.checked === false;
+            else if (block.type === "SOP") this.resetSOP(childID);
+            else console.log("Internal Error: Invalid Block type");
+          })
+        )
+      );
+
+      // Less memory efficient where all blocks are stored in an in memory array first
+      const block = await this.getSopBlock(sopID);
+      Promise.all(block.children.map(this.getBlock)).then((blocks) =>
+        blocks.map((block) => {
+          if (block.type === "checkbox") block.properties.checked === false;
+          else if (block.type === "SOP") this.resetSOP(block.id);
+          else console.log("Internal Error: Invalid Block type");
+        })
+      );
+
+      */
+    },
   },
 
   // https://www.npmjs.com/package/pinia-plugin-persistedstate

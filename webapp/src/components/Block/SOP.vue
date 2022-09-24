@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useStore } from "../../store";
+import { useSettings } from "../../store/settings";
+import { useNotif } from "../../store/notif";
 import Block from "./Block.vue";
 
 import type { SopBlock } from "../../types/Blocks";
@@ -6,11 +9,18 @@ import type { SopBlock } from "../../types/Blocks";
 const props = defineProps<{ block: SopBlock }>();
 
 /**
- * @todo
- * Reset all the checked items (uncheck them)
+ * Reset function that wraps around the resetSOP method in block store
  */
 function reset() {
-  //
+  if (
+    useSettings().settings.confirmBeforeReset &&
+    !confirm("Reset SOP?\nThis will uncheck all checkboxes")
+  )
+    return;
+
+  useStore()
+    .resetSOP(props.block.id)
+    .then(() => useNotif().showNotif("SOP resetted"));
 }
 </script>
 
