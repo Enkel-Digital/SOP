@@ -115,8 +115,16 @@ export const useStore = defineStore("main", {
      */
     async getChildBlocks(childIDs: Array<UUID> | undefined) {
       if (childIDs)
-        // Fire and forget so it can run in the background.
-        for (const childID of childIDs) this.getBlock(childID);
+        // Fire and forget calls to `getBlock` method to run in the background.
+        //
+        // Checking if child block is already loaded here directly instead of
+        // relying on the `getBlock` method to check local cache because if the
+        // child block is already loaded and `getBlock` is called on that block
+        // ID again, then it will load the child block of this child block.
+        // Which means it is loading one extra level of blocks deeper than needed,
+        // which is why there is an extra check here before calling `getBlock`.
+        for (const childID of childIDs)
+          if (!this.blocks[childID]) this.getBlock(childID);
     },
 
     /**
