@@ -46,7 +46,7 @@ function reset() {
       <div class="column is-size-4 is-narrow">{{ i + 1 }}.</div>
 
       <div class="column">
-        <Block :blockID="childID" />
+        <Block :id="childID" />
       </div>
     </div>
   </div>
