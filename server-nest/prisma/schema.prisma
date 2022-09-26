@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// 
+// This schema is for PostgreSQL therefore certain conventions are followed:
+// 1. Snake case is used for table names.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum block_type {
+  SOP
+  CHECKBOX
+}
+
+// This is modelled after the BaseBlock type
+// All other specific block type items are all JSON values in properties
+model block {
+  id   Int        @id @default(autoincrement())
+  type block_type
+
+  blockID String @unique
+
+  // Self relation (https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations):
+  // A block have a optional parent ID because:
+  // A block can have zero or one parent block
+  // A block can have zero or more child blocks
+  parentID String?
+  parent   block?  @relation("ParentChild", fields: [parentID], references: [blockID])
+  children block[] @relation("ParentChild")
+
+  // All other specific block type items are all JSON values in properties
+  properties Json
+
+  // All datetime values
+  // 
+  // https://stackoverflow.com/questions/48973706/how-to-store-date-in-unix-millisecond-in-mysql
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
