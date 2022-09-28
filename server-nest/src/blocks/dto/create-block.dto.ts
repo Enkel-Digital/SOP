@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsIn } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsIn } from 'class-validator';
 
 /**
  * The TS not null assertion operator is used as these are supposed to be validation
@@ -10,9 +10,9 @@ export class CreateBlockDto {
   @IsIn(['SOP', 'CHECKBOX'])
   type!: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  parent!: string;
+  parent?: string;
 
   @IsNotEmpty()
   properties!: object;

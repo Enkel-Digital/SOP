@@ -5,6 +5,8 @@ import { UpdateBlockDto } from './dto/update-block.dto';
 import { PrismaService } from '../providers/prisma.service';
 import type { block as Block, block_type } from '@prisma/client';
 
+import * as cuid from 'cuid';
+
 @Injectable()
 export class BlocksService {
   constructor(private prisma: PrismaService) {}
@@ -13,6 +15,14 @@ export class BlocksService {
    * Create a new block, save to DB and get back full block data.
    */
   create(createBlockDto: CreateBlockDto): Promise<Block> {
+    return this.prisma.block.create({
+      data: {
+        type: createBlockDto.type as block_type,
+        blockID: createBlockDto.type + '-' + cuid(),
+        properties: createBlockDto.properties,
+        parentID: createBlockDto.parent,
+      },
+    });
   }
 
   /**
