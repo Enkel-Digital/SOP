@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
-import { dbProvider } from './providers/database.provider';
+import { BlocksModule } from './blocks/blocks.module';
 
 import { AppController } from './app.controller';
+
+import { dbProvider } from './providers/database.provider';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { AppController } from './app.controller';
       // abortEarly: false -> Continue validation on first error to get all errors
       // validationOptions: { allowUnknown: false, abortEarly: false },
     }),
+
+    BlocksModule,
   ],
 
   controllers: [AppController],
