@@ -28,7 +28,25 @@ export class BlocksService {
   /**
    * Get the requested block and its child blocks back in one single Blocks map
    */
-  async getBlockAndChildren(id: number): Promise<any> {
+  async getBlockAndChildren(id: number): Promise<{ [key: number]: Block }> {
+    const block = await this.prisma.block.findUnique({ where: { id } });
+    if (block === null)
+      throw new HttpException(`Invalid block ID '${id}'`, HttpStatus.NOT_FOUND);
+
+    // Get the child blocks that have the original block's block ID as their parent field
+    const children = await this.prisma.block.findMany({
+      where: { parentID: block.blockID },
+    });
+
+    const blocks = children.reduce(
+      (blocks, block) => ((blocks[block.id] = block), blocks),
+      {} as { [key: number]: Block },
+    );
+
+    // Add the original block into the map
+    blocks[block.id] = block;
+
+    return blocks;
   }
 
   async update(id: number, updateBlockDto: UpdateBlockDto): Promise<void> {
