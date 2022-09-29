@@ -17,8 +17,8 @@ export class BlocksService {
   create(createBlockDto: CreateBlockDto): Promise<Block> {
     return this.prisma.block.create({
       data: {
+        id: createBlockDto.type + '-' + cuid(),
         type: createBlockDto.type as block_type,
-        blockID: createBlockDto.type + '-' + cuid(),
         properties: createBlockDto.properties,
         parentID: createBlockDto.parent,
       },
@@ -28,19 +28,19 @@ export class BlocksService {
   /**
    * Get the requested block and its child blocks back in one single Blocks map
    */
-  async getBlockAndChildren(id: number): Promise<{ [key: number]: Block }> {
+  async getBlockAndChildren(id: string): Promise<{ [key: number]: Block }> {
     const block = await this.prisma.block.findUnique({ where: { id } });
     if (block === null)
       throw new HttpException(`Invalid block ID '${id}'`, HttpStatus.NOT_FOUND);
 
     // Get the child blocks that have the original block's block ID as their parent field
     const children = await this.prisma.block.findMany({
-      where: { parentID: block.blockID },
+      where: { parentID: block.id },
     });
 
     const blocks = children.reduce(
       (blocks, block) => ((blocks[block.id] = block), blocks),
-      {} as { [key: number]: Block },
+      {} as { [key: string]: Block },
     );
 
     // Add the original block into the map
@@ -53,6 +53,6 @@ export class BlocksService {
     console.log(`This action updates a #${id} block`);
   }
 
-  async deleteBlock(id: number): Promise<void> {
+  async deleteBlock(id: string): Promise<void> {
   }
 }

@@ -13,7 +13,6 @@ export class BlocksController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    // https://stackoverflow.com/questions/6682997/what-is-the-purpose-of-a-plus-symbol-before-a-variable
-    return this.blocksService.getBlockAndChildren(+id);
+    return this.blocksService.getBlockAndChildren(id);
   }
 }

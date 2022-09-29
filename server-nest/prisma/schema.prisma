@@ -21,17 +21,16 @@ enum block_type {
 // This is modelled after the BaseBlock type
 // All other specific block type items are all JSON values in properties
 model block {
-  id   Int        @id @default(autoincrement())
-  type block_type
+  id String @id @unique
 
-  blockID String @unique
+  type block_type
 
   // Self relation (https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations):
   // A block have a optional parent ID because:
   // A block can have zero or one parent block
   // A block can have zero or more child blocks
   parentID String?
-  parent   block?  @relation("ParentChild", fields: [parentID], references: [blockID])
+  parent   block?  @relation("ParentChild", fields: [parentID], references: [id])
   children block[] @relation("ParentChild")
 
   // All other specific block type items are all JSON values in properties
