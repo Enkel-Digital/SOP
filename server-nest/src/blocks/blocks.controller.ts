@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { BlocksService } from './blocks.service';
 import { CreateBlockDto } from './dto/create-block.dto';
 
@@ -14,5 +14,10 @@ export class BlocksController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.blocksService.getBlockAndChildren(id);
+  }
+
+  @Delete(':id')
+  deleteBlock(@Param('id') id: string) {
+    return this.blocksService.deleteBlock(id);
   }
 }

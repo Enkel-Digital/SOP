@@ -53,6 +53,10 @@ export class BlocksService {
     console.log(`This action updates a #${id} block`);
   }
 
+  /**
+   * Delete a block without returning anything
+   */
   async deleteBlock(id: string): Promise<void> {
+    await this.prisma.block.delete({ where: { id } });
   }
 }
