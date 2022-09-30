@@ -10,7 +10,7 @@ export const isSopBlock = (block: Block): block is SopBlock =>
  * Type predicate to check if a given block is a Checkbox Block
  */
 export const isCheckboxBlock = (block: Block): block is CheckboxBlock =>
-  (block as CheckboxBlock).type === "checkbox";
+  (block as CheckboxBlock).type === "CKB";
 
 /**
  * Sum type of all the predicate functions

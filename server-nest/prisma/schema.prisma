@@ -15,7 +15,7 @@ datasource db {
 
 enum block_type {
   SOP
-  CHECKBOX
+  CKB
 }
 
 // This is modelled after the BaseBlock type

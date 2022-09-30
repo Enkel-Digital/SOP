@@ -7,7 +7,7 @@ import { IsNotEmpty, IsString, IsOptional, IsIn } from 'class-validator';
 export class CreateBlockDto {
   @IsNotEmpty()
   @IsString()
-  @IsIn(['SOP', 'CHECKBOX'])
+  @IsIn(['SOP', 'CKB'])
   type!: string;
 
   @IsOptional()

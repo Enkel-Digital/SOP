@@ -142,7 +142,7 @@ export const useStore = defineStore("main", {
           // @todo Use a switch case instead with strong type checking to ensure all cases checked
           //
           // Uncheck if checkbox block
-          if (block.type === "checkbox") block.properties.checked = false;
+          if (block.type === "CKB") block.properties.checked = false;
           // Recursively call `resetSOP` if it is a nested SOP
           else if (block.type === "SOP") this.resetSOP(childID);
           // Error if a new block is introduced but isn't handled here
@@ -156,7 +156,7 @@ export const useStore = defineStore("main", {
       Promise.all(
         block.children.map((childID) =>
           this.getBlock(childID).then((block) => {
-            if (block.type === "checkbox") block.properties.checked === false;
+            if (block.type === "CKB") block.properties.checked === false;
             else if (block.type === "SOP") this.resetSOP(childID);
             else console.log("Internal Error: Invalid Block type");
           })
@@ -167,7 +167,7 @@ export const useStore = defineStore("main", {
       const block = await this.getSopBlock(sopID);
       Promise.all(block.children.map(this.getBlock)).then((blocks) =>
         blocks.map((block) => {
-          if (block.type === "checkbox") block.properties.checked === false;
+          if (block.type === "CKB") block.properties.checked === false;
           else if (block.type === "SOP") this.resetSOP(block.id);
           else console.log("Internal Error: Invalid Block type");
         })

@@ -7,7 +7,7 @@ import type { BaseBlock } from "./Base";
 export type Checkbox_UUID = UUID;
 
 export interface CheckboxBlock extends BaseBlock {
-  type: "checkbox";
+  type: "CKB";
 
   id: Checkbox_UUID;
 
