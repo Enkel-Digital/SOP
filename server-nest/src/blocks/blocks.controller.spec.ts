@@ -24,6 +24,7 @@ describe('BlocksController', () => {
   });
 
   it('should be able to save a new block', async () => {
+    // The mock `block` object to be returned from the mock service
     const block: Block = {
       id: 'SOP-cs9lri8508001ocjv9c44oxz5',
       type: 'SOP',
@@ -32,13 +33,17 @@ describe('BlocksController', () => {
         title: 'My SOP',
       },
 
-      // @todo To use string dates instead
-      // createdAt: '2022-10-01T04:25:57.520Z',
-      // updatedAt: '2022-10-01T04:25:57.522Z',
+      // Note that although block is a date type, it will be converted
+      // to a date string for the client after stringifying it as JSON.
+      // Which is why this uses 2 random Date objects rather than string.
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
+    // Mock the `create` method to just return the fake `block` object directly
+    jest.spyOn(service, 'create').mockImplementation(async () => block);
+
+    // The mock DTO to pass into the controller
     const createBlockDto = {
       type: 'SOP',
       properties: {
@@ -46,10 +51,6 @@ describe('BlocksController', () => {
       },
     };
 
-    jest
-      .spyOn(service, 'create')
-      .mockImplementation(async (_createBlockDto) => block);
-
-    expect(await service.create(createBlockDto)).toBe(block);
+    expect(await controller.create(createBlockDto)).toBe(block);
   });
 });
