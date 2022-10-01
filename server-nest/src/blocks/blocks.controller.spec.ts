@@ -33,9 +33,9 @@ describe('BlocksController', () => {
         title: 'My SOP',
       },
 
-      // Note that although block is a date type, it will be converted
-      // to a date string for the client after stringifying it as JSON.
-      // Which is why this uses 2 random Date objects rather than string.
+      // Note that although these are defined as date types, it will be
+      // converted to a date string after JSON stringification, which
+      // is why this uses 2 random Date objects rather than string.
       createdAt: new Date(),
       updatedAt: new Date(),
     };
